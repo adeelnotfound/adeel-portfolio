@@ -657,30 +657,55 @@
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // scroll-spy nav — drives both the desktop nav links and mobile bottom tabbar
+  // scroll-spy nav — drives both the desktop nav links and mobile bottom tabbar.
+  // Uses direct scroll-position math instead of IntersectionObserver thresholds:
+  // a short last section (like Contact) can fail to cross a % threshold on a
+  // tall viewport and never fire, leaving the previous section stuck active.
   var spyTargets = document.querySelectorAll('.nav-link, .tab-link');
-  var sections = ['work','projects','about','contact'].map(function(id){ return document.getElementById(id); });
+  var sectionEls = ['work','projects','about','contact'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
   var spyLocked = false;
-  var spyIO = new IntersectionObserver(function(entries){
+
+  function setActive(id){
+    spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === id); });
+  }
+
+  function updateSpy(){
     if (spyLocked) return;
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === e.target.id); });
-      }
-    });
-  }, {threshold:0.35, rootMargin:'-80px 0px -55% 0px'});
-  sections.forEach(function(s){ if(s) spyIO.observe(s); });
+    var scrollBottom = window.scrollY + window.innerHeight;
+    var atPageBottom = scrollBottom >= document.documentElement.scrollHeight - 4;
+
+    if (atPageBottom) {
+      setActive(sectionEls[sectionEls.length - 1].id);
+      return;
+    }
+
+    var probeY = window.scrollY + window.innerHeight * 0.35;
+    var current = sectionEls[0].id;
+    for (var i = 0; i < sectionEls.length; i++) {
+      if (sectionEls[i].offsetTop <= probeY) current = sectionEls[i].id;
+    }
+    setActive(current);
+  }
+
+  var spyTicking = false;
+  window.addEventListener('scroll', function(){
+    if (!spyTicking) {
+      requestAnimationFrame(function(){ updateSpy(); spyTicking = false; });
+      spyTicking = true;
+    }
+  }, {passive:true});
+  window.addEventListener('resize', updateSpy);
+  updateSpy();
 
   // clicking a nav link sets it active right away, and briefly locks out the
-  // scroll observer so it can't leave a stale highlight while the smooth
-  // scroll to the new section is still animating
+  // scroll handler so it can't override the click while the smooth scroll to
+  // the new section is still animating
   spyTargets.forEach(function(link){
     link.addEventListener('click', function(){
-      var sec = link.dataset.sec;
-      spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === sec); });
+      setActive(link.dataset.sec);
       spyLocked = true;
       clearTimeout(spyTargets._unlockTimer);
-      spyTargets._unlockTimer = setTimeout(function(){ spyLocked = false; }, 900);
+      spyTargets._unlockTimer = setTimeout(function(){ spyLocked = false; updateSpy(); }, 900);
     });
   });
 
