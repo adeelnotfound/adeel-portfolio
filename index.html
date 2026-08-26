@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
+<script>document.documentElement.classList.remove('no-js');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Adeel Shaikh — Frontend Developer</title>
@@ -418,6 +419,9 @@
   @media (max-width:900px) and (orientation:landscape) and (max-height:480px){
     .hero{min-height:auto;padding-top:90px;padding-bottom:40px}
   }
+
+  /* safety net: if JS fails to load/run at all, nothing should stay invisible */
+  .no-js .featured,.no-js .projects,.no-js .about,.no-js .contact{opacity:1!important;transform:none!important}
 </style>
 </head>
 <body>
@@ -696,21 +700,32 @@
   });
 
   var reveal = document.querySelectorAll('.featured, .projects, .about, .contact');
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-        io.unobserve(e.target);
-      }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -10% 0px'});
+    reveal.forEach(function(el){
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
+      io.observe(el);
+      // safety net: force-reveal if the observer never fires (some mobile
+      // browsers/webviews misbehave with IO on sticky/transformed ancestors)
+      setTimeout(function(){
+        if (el.style.opacity !== '1') {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }
+      }, 2500);
     });
-  }, {threshold:0.12});
-  reveal.forEach(function(el){
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
-    io.observe(el);
-  });
+  }
+  // no IntersectionObserver support at all → just show everything, no animation
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -865,23 +880,6 @@
   } else {
     document.querySelectorAll('.stat-n').forEach(function(el){ el.textContent = el.dataset.count; });
   }
-
-  var reveal = document.querySelectorAll('.featured, .projects, .about, .contact');
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-        io.unobserve(e.target);
-      }
-    });
-  }, {threshold:0.12});
-  reveal.forEach(function(el){
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
-    io.observe(el);
-  });
 
   if (reducedMotion) {
     document.querySelectorAll('*').forEach(function(el){ el.style.animation = 'none'; el.style.transition = 'none'; });
