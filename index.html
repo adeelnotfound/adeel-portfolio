@@ -482,22 +482,6 @@
   </div>
 </section>
 
-<script>
-  // hard failsafe: hero entrance animations must never leave content invisible.
-  // runs immediately (not waiting for full page load) and again after a short
-  // delay in case the CSS animation stalls or never fires on this browser.
-  (function(){
-    function forceShow(){
-      ['.hero-name','.hero-role','.hero-tagline','.hero-links'].forEach(function(sel){
-        var el = document.querySelector(sel);
-        if (el) { el.style.opacity = '1'; el.style.transform = 'none'; el.style.animation = 'none'; }
-      });
-    }
-    setTimeout(forceShow, 1800);
-    window.addEventListener('load', function(){ setTimeout(forceShow, 300); });
-  })();
-</script>
-
 <section class="featured" id="work">
   <div class="eyebrow">Featured builds</div>
 
