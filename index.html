@@ -189,6 +189,10 @@
   /* ── FEATURED PROJECT (Nutrideel) ── */
   .featured{padding-top:120px;padding-bottom:60px;border-top:1px solid var(--border)}
   .feat-block{margin-bottom:110px}
+  @media (max-width:720px){
+    .featured{padding-top:56px;padding-bottom:8px}
+    .feat-block{margin-bottom:56px}
+  }
   .feat-block:last-child{margin-bottom:0}
   .feat-grid{
     display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
@@ -290,6 +294,7 @@
 
   /* ── OTHER PROJECTS ── */
   .projects{padding-top:100px;padding-bottom:100px;border-top:1px solid var(--border)}
+  @media (max-width:720px){.projects{padding-top:56px;padding-bottom:56px}}
   .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   @media (min-width:1180px){.proj-grid{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:900px){.proj-grid{grid-template-columns:1fr}}
@@ -360,6 +365,58 @@
   footer{
     text-align:center;padding:32px 24px;font-family:var(--mono);font-size:11px;
     color:var(--text-muted);border-top:1px solid var(--border);
+  }
+
+  /* ══════════════════════════════════════════════
+     MOBILE FIXES — dedicated pass for phones of all sizes
+     ══════════════════════════════════════════════ */
+  @media (max-width:720px){
+    html{-webkit-text-size-adjust:100%}
+
+    nav{padding:16px clamp(16px,5vw,24px)}
+    .nav-mark{max-width:52vw;font-size:12px}
+    .hamburger{min-width:44px;min-height:44px;align-items:center;justify-content:center}
+
+    section{padding-left:clamp(16px,5vw,24px);padding-right:clamp(16px,5vw,24px)}
+
+    .hero-name{font-size:clamp(38px,13vw,60px);word-break:break-word}
+    .hero-tagline{font-size:17px}
+    .hero-links{gap:10px}
+    .btn{padding:12px 18px;font-size:12.5px;min-height:44px}
+    .hero-links .btn{flex:1 1 auto;justify-content:center;text-align:center}
+
+    .feat-copy h3{font-size:26px}
+    .feat-copy p{font-size:14.5px}
+    .device{max-width:82vw;width:260px}
+    .why-box{padding:14px 16px}
+
+    .stat-row{gap:0;justify-content:space-between}
+    .stat{flex:1 1 0;min-width:0}
+    .stat-n{font-size:clamp(24px,7.5vw,34px)}
+    .stat-l{font-size:9.5px;letter-spacing:.03em}
+
+    .stack-row{font-size:12.5px;flex-wrap:wrap;gap:4px 0}
+    .stack-row .k{flex:1 1 100%;color:var(--text-muted);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+    .stack-row .v{flex:1 1 100%}
+
+    .contact-links{gap:12px}
+    .contact-links .btn{min-width:200px}
+
+    .mobile-tabbar a{min-height:44px;justify-content:center}
+  }
+
+  @media (max-width:380px){
+    .hero-name{font-size:34px}
+    .hero-tagline{font-size:15.5px}
+    .stat-row{flex-wrap:wrap;gap:18px 0}
+    .stat{flex:1 1 45%}
+    .device{width:100%;max-width:250px}
+    .contact-links{flex-direction:column;align-items:stretch}
+    .contact-links .btn{width:100%}
+  }
+
+  @media (max-width:900px) and (orientation:landscape) and (max-height:480px){
+    .hero{min-height:auto;padding-top:90px;padding-bottom:40px}
   }
 </style>
 </head>
