@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adeel Shaikh — Frontend Developer</title>
+<meta name="description" content="Adeel Shaikh — frontend developer and CS student. Rooted in purpose, driven by hope." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080a0f;
+    --bg-raised:#0d1119;
+    --bg-card:#0f141d;
+    --cyan:#00f0ff;
+    --magenta:#ff2e97;
+    --purple:#7b2fff;
+    --text:#e4e9f0;
+    --text-dim:#8891a0;
+    --text-muted:#4b5563;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--cyan);color:#000}
+  a{color:inherit;text-decoration:none}
+
+  .noise{
+    position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .bg-glow{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(700px 500px at 15% 0%,rgba(0,240,255,.06),transparent 60%),
+      radial-gradient(600px 500px at 90% 30%,rgba(255,46,151,.05),transparent 60%),
+      radial-gradient(800px 600px at 50% 100%,rgba(123,47,255,.05),transparent 60%);
+  }
+  .cursor-glow{
+    position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;
+    background:radial-gradient(circle,rgba(0,240,255,.05),transparent 68%);
+    transform:translate(-50%,-50%);
+    transition:opacity .3s;left:50%;top:40%;opacity:0;
+  }
+  .scroll-bar{
+    position:fixed;top:0;left:0;height:2px;z-index:100;
+    background:linear-gradient(90deg,var(--magenta),var(--purple),var(--cyan));
+    width:0%;box-shadow:0 0 12px rgba(0,240,255,.6);
+    transition:width .08s linear;
+  }
+
+  nav{
+    position:sticky;top:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px clamp(24px,6vw,80px);
+    background:rgba(8,10,15,.72);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-mark{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--cyan);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
+  .nav-links{display:flex;gap:32px;font-family:var(--mono);font-size:13px}
+  .nav-links a{color:var(--text-dim);transition:color .2s}
+  .nav-links a:hover{color:var(--cyan)}
+  .nav-cta{
+    font-family:var(--mono);font-size:12px;padding:9px 18px;border-radius:6px;
+    border:1px solid var(--cyan);color:var(--cyan);transition:all .2s;
+  }
+  .nav-cta:hover{background:var(--cyan);color:#000}
+  @media (max-width:720px){.nav-links{display:none}}
+
+  /* ── mobile hamburger + drawer ── */
+  .hamburger{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none;cursor:pointer}
+  .hamburger span{width:22px;height:2px;background:var(--cyan);transition:transform .25s,opacity .25s}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mobile-drawer{
+    position:fixed;inset:0;z-index:60;background:rgba(6,8,12,.97);backdrop-filter:blur(10px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;
+    opacity:0;pointer-events:none;transition:opacity .3s;
+  }
+  .mobile-drawer.open{opacity:1;pointer-events:auto}
+  .mobile-drawer a{
+    font-family:var(--display);font-weight:600;font-size:26px;color:var(--text);
+    opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s;
+  }
+  .mobile-drawer.open a{opacity:1;transform:translateY(0)}
+  .mobile-drawer a:nth-child(1){transition-delay:.05s}
+  .mobile-drawer a:nth-child(2){transition-delay:.1s}
+  .mobile-drawer a:nth-child(3){transition-delay:.15s}
+  .mobile-drawer a:nth-child(4){transition-delay:.2s}
+  .mobile-drawer a.cta{color:var(--cyan);font-family:var(--mono);font-size:15px;border:1px solid var(--cyan);padding:12px 26px;border-radius:8px}
+
+  /* bottom tab bar — thumb-reachable quick nav, mobile only */
+  .mobile-tabbar{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:55;
+    justify-content:space-around;align-items:center;padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(8,10,15,.9);backdrop-filter:blur(14px);border-top:1px solid var(--border);
+  }
+  .mobile-tabbar a{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    font-family:var(--mono);font-size:9.5px;color:var(--text-muted);letter-spacing:.03em;
+    padding:4px 10px;transition:color .2s;
+  }
+  .mobile-tabbar a svg{opacity:.6;transition:opacity .2s}
+  .mobile-tabbar a.active{color:var(--cyan)}
+  .mobile-tabbar a.active svg{opacity:1}
+
+  @media (max-width:720px){
+    .hamburger{display:flex}
+    .mobile-tabbar{display:flex}
+    .nav-cta{display:none}
+    body{padding-bottom:64px}
+  }
+
+  section{position:relative;z-index:2;padding:0 clamp(24px,6vw,80px)}
+
+  /* ── HERO ── */
+  .hero{
+    min-height:88vh;display:flex;flex-direction:column;justify-content:center;
+    padding-top:60px;padding-bottom:60px;
+  }
+  @media (max-width:720px){
+    .hero{min-height:82vh;padding-top:40px}
+    .boot{font-size:11px;margin-bottom:26px;min-height:76px}
+  }
+  .boot{
+    font-family:var(--mono);font-size:13px;color:var(--text-muted);
+    display:flex;flex-direction:column;gap:6px;margin-bottom:36px;min-height:96px;
+  }
+  .boot span{opacity:0;animation:reveal .1s forwards}
+  .boot .ok{color:var(--cyan)}
+  @keyframes reveal{to{opacity:1}}
+
+  .hero-name{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(48px,8.4vw,108px);line-height:.98;letter-spacing:-.02em;
+    color:#fff;opacity:0;animation:riseIn .7s .9s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-role{
+    margin-top:18px;font-family:var(--mono);font-size:clamp(14px,2vw,18px);
+    color:var(--cyan);letter-spacing:.04em;
+    opacity:0;animation:riseIn .6s 1.2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-tagline{
+    margin-top:22px;font-family:var(--display);font-weight:500;font-size:clamp(18px,2.4vw,24px);
+    color:var(--text-dim);max-width:640px;font-style:italic;
+    opacity:0;animation:riseIn .6s 1.4s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+  .hero-links{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:40px;
+    opacity:0;animation:riseIn .6s 1.6s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .btn{
+    font-family:var(--mono);font-size:13px;padding:13px 24px;border-radius:8px;
+    border:1px solid var(--border-strong);display:inline-flex;align-items:center;gap:8px;
+    transition:all .2s;
+  }
+  .btn-primary{background:var(--cyan);color:#000;border-color:var(--cyan)}
+  .btn-primary:hover{box-shadow:0 0 24px rgba(0,240,255,.4);transform:translateY(-1px)}
+  .btn-ghost{color:var(--text)}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--magenta);
+    text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:'';width:24px;height:1px;background:var(--magenta)}
+  h2.section-title{
+    font-family:var(--display);font-weight:700;font-size:clamp(30px,4vw,44px);
+    letter-spacing:-.01em;color:#fff;margin-bottom:16px;
+  }
+  .section-intro{color:var(--text-dim);max-width:620px;font-size:16px;margin-bottom:56px}
+
+  /* ── FEATURED PROJECT (Nutrideel) ── */
+  .featured{padding-top:120px;padding-bottom:60px;border-top:1px solid var(--border)}
+  .feat-block{margin-bottom:110px}
+  .feat-block:last-child{margin-bottom:0}
+  .feat-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+  }
+  .feat-grid.reverse .device-wrap{order:-1}
+  @media (max-width:900px){
+    .feat-grid,.feat-grid.reverse{grid-template-columns:1fr;gap:48px}
+    .feat-grid.reverse .device-wrap{order:0}
+  }
+
+  .feat-copy h3{
+    font-family:var(--display);font-weight:700;font-size:clamp(28px,3.6vw,40px);
+    color:#fff;margin-bottom:6px;
+  }
+  .feat-copy .sub{font-family:var(--mono);font-size:13px;color:var(--text-muted);margin-bottom:24px}
+  .feat-copy p{color:var(--text-dim);font-size:15.5px;margin-bottom:16px}
+  .feat-copy p b{color:var(--text);font-weight:600}
+  .feat-stack{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0}
+  .pill{
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:6px 12px;border-radius:6px;
+    border:1px solid rgba(0,240,255,.28);color:var(--cyan);background:rgba(0,240,255,.05);
+  }
+  .pill.m{border-color:rgba(255,46,151,.28);color:var(--magenta);background:rgba(255,46,151,.05)}
+
+  /* device mockup */
+  .device-wrap{display:flex;justify-content:center;will-change:transform}
+  .device{
+    width:280px;max-width:78vw;border-radius:36px;padding:14px;
+    background:linear-gradient(160deg,#161c28,#0a0d13);
+    border:1px solid var(--border-strong);
+    box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 60px rgba(0,240,255,.06);
+    animation:float 6s ease-in-out infinite;
+  }
+  .device.saffron{animation-delay:-3s}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(.4deg)}}
+  @media (max-width:720px){.device{animation:none;max-width:64vw}}
+  .device-screen{
+    background:#0b0f16;border-radius:24px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .d-status{
+    display:flex;justify-content:space-between;padding:12px 18px 4px;
+    font-family:var(--mono);font-size:10px;color:var(--text-muted);
+  }
+  .d-header{padding:8px 18px 16px}
+  .d-header .g{font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:.1em}
+  .d-header .h{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;margin-top:4px}
+  .d-ring-row{display:flex;justify-content:center;padding:10px 18px 18px}
+  .d-ring{
+    width:132px;height:132px;border-radius:50%;
+    background:conic-gradient(var(--cyan) 0deg 245deg,rgba(255,255,255,.08) 245deg 360deg);
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .d-ring::before{content:'';position:absolute;inset:11px;border-radius:50%;background:#0b0f16}
+  .d-ring-inner{position:relative;text-align:center}
+  .d-ring-inner .n{font-family:var(--display);font-weight:700;font-size:22px;color:#fff}
+  .d-ring-inner .l{font-family:var(--mono);font-size:8.5px;color:var(--text-muted);letter-spacing:.08em}
+  .d-macros{display:flex;justify-content:space-around;padding:0 18px 18px}
+  .d-macro{text-align:center}
+  .d-macro .v{font-family:var(--display);font-weight:600;font-size:14px;color:#fff}
+  .d-macro .l{font-family:var(--mono);font-size:8px;color:var(--text-muted);letter-spacing:.06em;margin-top:2px}
+  .d-divider{height:1px;background:rgba(255,255,255,.06);margin:0 18px}
+  .d-chat{padding:14px 18px 18px;display:flex;flex-direction:column;gap:8px}
+  .d-bubble{
+    font-family:var(--body);font-size:10.5px;padding:9px 12px;border-radius:12px;max-width:78%;
+    line-height:1.4;
+  }
+  .d-bubble.user{align-self:flex-end;background:rgba(0,240,255,.14);color:#fff;border-bottom-right-radius:4px}
+  .d-bubble.ai{align-self:flex-start;background:rgba(255,255,255,.05);color:var(--text-dim);border-bottom-left-radius:4px}
+  .d-tabbar{
+    display:flex;justify-content:space-around;padding:12px 10px;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  .d-tab{
+    width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);
+  }
+  .d-tab.active{background:var(--cyan);box-shadow:0 0 8px rgba(0,240,255,.6)}
+
+  .device.saffron .d-header .g{color:#f5c542}
+  .device.saffron .d-status,.device.saffron .device-screen{background:#0a0a0a}
+  .device.saffron .device-screen{border-color:rgba(245,197,66,.1)}
+  .d-chip-row{display:flex;gap:6px;padding:0 18px 12px;flex-wrap:wrap}
+  .d-chip{font-family:var(--mono);font-size:8.5px;padding:5px 10px;border-radius:20px;border:1px solid rgba(245,197,66,.3);color:#f5c542}
+  .d-chip.on{background:rgba(245,197,66,.16)}
+  .d-recipe-card{margin:0 18px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px}
+  .d-recipe-card .t{font-family:var(--display);font-weight:600;font-size:12.5px;color:#fff}
+  .d-recipe-card .s{font-family:var(--mono);font-size:8.5px;color:#f5c542;margin-top:4px}
+  .d-check{display:flex;align-items:center;gap:8px;padding:6px 18px;font-family:var(--body);font-size:10.5px;color:var(--text-dim)}
+  .d-check .box{width:12px;height:12px;border-radius:3px;border:1px solid rgba(245,197,66,.4);flex:none}
+  .d-check.done .box{background:#f5c542;border-color:#f5c542}
+  .d-check.done span{text-decoration:line-through;opacity:.5}
+
+  .why-box{
+    margin-top:32px;padding:18px 20px;border-left:2px solid var(--magenta);
+    background:rgba(255,46,151,.04);border-radius:0 8px 8px 0;
+  }
+  .why-box .k{font-family:var(--mono);font-size:11px;color:var(--magenta);letter-spacing:.1em;margin-bottom:6px}
+  .why-box p{color:var(--text-dim);font-size:14.5px;margin:0}
+
+  /* ── OTHER PROJECTS ── */
+  .projects{padding-top:100px;padding-bottom:100px;border-top:1px solid var(--border)}
+  .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media (min-width:1180px){.proj-grid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:900px){.proj-grid{grid-template-columns:1fr}}
+  .proj-card{
+    background:var(--bg-card);border:1px solid var(--border);border-radius:14px;
+    padding:26px 24px;transition:transform .12s ease-out,border-color .25s,box-shadow .25s;
+    position:relative;overflow:hidden;transform-style:preserve-3d;will-change:transform;
+  }
+  .proj-card::before{
+    content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(0,240,255,.1),transparent 70%);
+  }
+  .proj-card:hover::before{opacity:1}
+  .proj-card:hover{border-color:rgba(0,240,255,.35);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  .proj-card .num{font-family:var(--mono);font-size:11px;color:var(--text-muted);position:relative;z-index:1}
+  .proj-card h4{font-family:var(--display);font-weight:600;font-size:19px;color:#fff;margin:10px 0 8px;position:relative;z-index:1}
+  .proj-card p{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;min-height:40px;position:relative;z-index:1}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;position:relative;z-index:1}
+  .tag{font-family:var(--mono);font-size:10px;color:var(--text-muted);padding:3px 9px;border:1px solid var(--border);border-radius:5px;transition:border-color .2s,color .2s}
+  .proj-card:hover .tag{border-color:rgba(0,240,255,.25);color:var(--cyan)}
+  .proj-link{font-family:var(--mono);font-size:12px;color:var(--cyan);display:inline-flex;align-items:center;gap:6px;position:relative;z-index:1}
+  .proj-link:hover{text-decoration:underline}
+  .proj-link svg{transition:transform .2s}
+  .proj-card:hover .proj-link svg{transform:translate(3px,-3px)}
+
+  @media (max-width:720px){
+    .proj-card{padding:22px 20px}
+    .proj-card:active{border-color:rgba(0,240,255,.35);transform:scale(.98)}
+    .proj-card:active .proj-link svg{transform:translate(3px,-3px)}
+  }
+
+  .nav-links a{position:relative}
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--cyan);
+    transition:width .25s;
+  }
+  .nav-links a.active::after,.nav-links a:hover::after{width:100%}
+  .nav-links a.active{color:var(--cyan)}
+
+  .cursor{display:inline-block;width:8px;height:1em;background:var(--cyan);margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* ── ABOUT / STACK ── */
+  .about{padding-top:100px;padding-bottom:100px;border-top:1px solid var(--border)}
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px}
+  @media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px}}
+  .about p{color:var(--text-dim);font-size:16px;margin-bottom:18px;max-width:560px}
+  .about b{color:var(--text)}
+  .stat-row{display:flex;gap:40px;margin-top:32px}
+  .stat-n{font-family:var(--display);font-weight:700;font-size:38px;color:var(--cyan);text-shadow:0 0 20px rgba(0,240,255,.3)}
+  .stat-l{font-family:var(--mono);font-size:10.5px;color:var(--text-muted);letter-spacing:.06em;margin-top:4px}
+  .stack-list{display:flex;flex-direction:column;gap:0}
+  .stack-row{
+    display:flex;justify-content:space-between;padding:14px 0;
+    border-bottom:1px solid var(--border);font-family:var(--mono);font-size:13px;
+  }
+  .stack-row .k{color:var(--text-muted)}
+  .stack-row .v{color:var(--text)}
+
+  /* ── CONTACT ── */
+  .contact{padding-top:100px;padding-bottom:80px;border-top:1px solid var(--border);text-align:center}
+  .contact h2{
+    font-family:var(--display);font-weight:700;font-size:clamp(32px,5vw,56px);color:#fff;
+    letter-spacing:-.01em;
+  }
+  .contact p{color:var(--text-dim);margin:16px auto 40px;max-width:480px;font-size:16px}
+  .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:16px}
+  footer{
+    text-align:center;padding:32px 24px;font-family:var(--mono);font-size:11px;
+    color:var(--text-muted);border-top:1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-bar" id="scrollBar"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="bg-glow"></div>
+<div class="noise"></div>
+
+<nav>
+  <div class="nav-mark" id="navMark">adeel.dev</div>
+  <div class="nav-links">
+    <a href="#work" class="nav-link" data-sec="work">work</a>
+    <a href="#projects" class="nav-link" data-sec="projects">projects</a>
+    <a href="#about" class="nav-link" data-sec="about">about</a>
+    <a href="#contact" class="nav-link" data-sec="contact">contact</a>
+  </div>
+  <a class="nav-cta" href="#contact">get in touch</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#work">work</a>
+  <a href="#projects">projects</a>
+  <a href="#about">about</a>
+  <a href="resume.pdf" target="_blank" rel="noopener">resume</a>
+  <a href="#contact" class="cta">get in touch</a>
+</div>
+
+<nav class="mobile-tabbar" id="mobileTabbar">
+  <a href="#work" class="tab-link" data-sec="work">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+    work
+  </a>
+  <a href="#projects" class="tab-link" data-sec="projects">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    projects
+  </a>
+  <a href="#about" class="tab-link" data-sec="about">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    about
+  </a>
+  <a href="#contact" class="tab-link" data-sec="contact">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+    contact
+  </a>
+</nav>
+
+<section class="hero">
+  <div class="boot" id="boot"></div>
+  <h1 class="hero-name">Adeel Shaikh</h1>
+  <div class="hero-role">Software Developer &nbsp;·&nbsp; CS Student</div>
+  <p class="hero-tagline">"Rooted in purpose, driven by hope."</p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="#work">View my work</a>
+    <a class="btn btn-ghost" href="https://github.com/adeelnotfound" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn btn-ghost" href="resume.pdf" id="resume-link" target="_blank" rel="noopener">Resume</a>
+  </div>
+</section>
+
+<section class="featured" id="work">
+  <div class="eyebrow">Featured builds</div>
+
+  <div class="feat-block">
+  <div class="feat-grid">
+    <div class="feat-copy">
+      <h3>Nutrideel</h3>
+      <div class="sub">Calorie & nutrition tracker · React Native / Expo</div>
+      <p>An <b>offline-first</b> nutrition tracker with meal, weight, activity, and fasting logging, SVG progress charts, and a thermodynamic weight-forecasting engine. Describe what you ate in plain language and Gemini breaks it into calories and macros — with a fully offline heuristic fallback, so core features work with no network and no API key at all.</p>
+      <p>On-device persistence via AsyncStorage, unit conversion, local reminder notifications, and haptic-driven UI feedback throughout. Configured for Android distribution via EAS Build. MIT licensed and live on GitHub.</p>
+      <div class="feat-stack">
+        <span class="pill">React Native</span>
+        <span class="pill">Expo</span>
+        <span class="pill m">Gemini API</span>
+        <span class="pill m">AsyncStorage</span>
+        <span class="pill">TypeScript</span>
+      </div>
+      <div class="why-box">
+        <div class="k">WHY I BUILT IT</div>
+        <p>I wanted a nutrition tracker that actually fit how I eat, and I wanted a real reason to learn mobile development instead of another tutorial. This was both at once.</p>
+      </div>
+      <div class="hero-links" style="margin-top:24px">
+        <a class="btn btn-ghost" href="https://github.com/adeelnotfound/Nutrideel" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      </div>
+    </div>
+    <div class="device-wrap">
+      <div class="device">
+        <div class="device-screen">
+          <div class="d-status"><span>9:41</span><span>●●●</span></div>
+          <div class="d-header">
+            <div class="g">TODAY</div>
+            <div class="h">Nutrideel</div>
+          </div>
+          <div class="d-ring-row">
+            <div class="d-ring">
+              <div class="d-ring-inner">
+                <div class="n">1,480</div>
+                <div class="l">/ 2,100 KCAL</div>
+              </div>
+            </div>
+          </div>
+          <div class="d-macros">
+            <div class="d-macro"><div class="v">92g</div><div class="l">PROTEIN</div></div>
+            <div class="d-macro"><div class="v">140g</div><div class="l">CARBS</div></div>
+            <div class="d-macro"><div class="v">48g</div><div class="l">FAT</div></div>
+          </div>
+          <div class="d-divider"></div>
+          <div class="d-chat">
+            <div class="d-bubble user">grilled chicken wrap and a banana</div>
+            <div class="d-bubble ai">≈ 430 kcal · 34g protein · logged to Today</div>
+          </div>
+          <div class="d-tabbar">
+            <span class="d-tab active"></span><span class="d-tab"></span>
+            <span class="d-tab"></span><span class="d-tab"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="feat-block">
+  <div class="feat-grid reverse">
+    <div class="feat-copy">
+      <h3>Aromatic Aura</h3>
+      <div class="sub">Recipe discovery & meal planning · React Native / Expo</div>
+      <p>A 4-screen recipe discovery app with a custom <b>"Cosmic Obsidian" theme</b> — deep blacks, saffron accents, and a layout built to stay legible with wet hands and a phone propped up mid-cook.</p>
+      <p>Pulls live recipe, ingredient, and image data from TheMealDB API with client-side caching to keep browsing fast and offline-tolerant. Save favorites to a private collection, auto-generate a grocery checklist from a recipe's ingredients, with persistent state via Zustand. Shipped as a real installable Android APK through EAS Build.</p>
+      <div class="feat-stack">
+        <span class="pill">React Native</span>
+        <span class="pill">Expo</span>
+        <span class="pill m">TheMealDB API</span>
+        <span class="pill m">Android APK</span>
+        <span class="pill">TypeScript</span>
+      </div>
+      <div class="why-box">
+        <div class="k">WHY I BUILT IT</div>
+        <p>I wanted to go past "app that runs in Expo Go" and actually ship something installable — figuring out EAS Build and a real signed APK taught me as much as the app itself did.</p>
+      </div>
+      <div class="hero-links" style="margin-top:24px">
+        <a class="btn btn-ghost" href="https://github.com/adeelnotfound/Aromatic-Aura" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+      </div>
+    </div>
+    <div class="device-wrap">
+      <div class="device saffron">
+        <div class="device-screen">
+          <div class="d-status"><span>9:41</span><span>●●●</span></div>
+          <div class="d-header">
+            <div class="g">DISCOVER</div>
+            <div class="h">Aromatic Aura</div>
+          </div>
+          <div class="d-chip-row">
+            <span class="d-chip on">Seafood</span>
+            <span class="d-chip">Dessert</span>
+            <span class="d-chip">Vegetarian</span>
+          </div>
+          <div class="d-recipe-card">
+            <div class="t">Saffron Butter Salmon</div>
+            <div class="s">28 min · warm & smoky aroma</div>
+          </div>
+          <div class="d-recipe-card">
+            <div class="t">Charred Lemon Orzo</div>
+            <div class="s">18 min · bright & citrus-forward</div>
+          </div>
+          <div class="d-divider" style="margin-top:6px"></div>
+          <div class="d-check done"><span class="box"></span><span>Salmon fillet</span></div>
+          <div class="d-check done"><span class="box"></span><span>Saffron threads</span></div>
+          <div class="d-check"><span class="box"></span><span>Unsalted butter</span></div>
+          <div class="d-tabbar">
+            <span class="d-tab active"></span><span class="d-tab"></span>
+            <span class="d-tab"></span><span class="d-tab"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<section class="projects" id="projects">
+  <div class="eyebrow">Also built</div>
+  <h2 class="section-title">More from the repo list</h2>
+  <p class="section-intro">Not every project needs to be a headline. These span security, AI, desktop, and the fundamentals that got the two above built right.</p>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <div class="num">01</div>
+      <h4>linux-security-system</h4>
+      <p>A Linux desktop file-security app — role-based login (admin/user), an auth-attempt audit log, and password-protected file encryption using Fernet (AES) with PBKDF2-HMAC key derivation.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Cryptography</span></div>
+      <a class="proj-link" href="https://github.com/adeelnotfound/linux-security-system" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+    <div class="proj-card">
+      <div class="num">02</div>
+      <h4>Multilingual RAG Chatbot</h4>
+      <p>A retrieval-augmented chatbot supporting English, German, Spanish, and Dutch, with side-by-side comparisons across different retrieval and generation models.</p>
+      <div class="proj-tags"><span class="tag">Python</span><span class="tag">RAG</span><span class="tag">Jupyter</span></div>
+      <a class="proj-link" href="https://github.com/adeelnotfound/Multilingual-RAG-Chatbot" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+    <div class="proj-card">
+      <div class="num">03</div>
+      <h4>Energy Bill Calculator</h4>
+      <p>A C# WinForms desktop app for tracking home appliances — logs wattage and daily usage, calculates cost with a tiered slab rate, and saves bill history.</p>
+      <div class="proj-tags"><span class="tag">C#</span><span class="tag">WinForms</span></div>
+      <a class="proj-link" href="https://github.com/adeelnotfound/Energy-Bill-Calculator" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+    <div class="proj-card">
+      <div class="num">04</div>
+      <h4>My-Calculator-Pro</h4>
+      <p>A calculator built with functional components and hooks — clean state management over flashy features.</p>
+      <div class="proj-tags"><span class="tag">React</span><span class="tag">TypeScript</span></div>
+      <a class="proj-link" href="https://github.com/adeelnotfound/My-Calculator-Pro" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+    <div class="proj-card">
+      <div class="num">05</div>
+      <h4>Profile-card-assignment</h4>
+      <p>A layout exercise — getting flexbox and component structure right before reaching for anything more complex.</p>
+      <div class="proj-tags"><span class="tag">TypeScript</span><span class="tag">Flexbox</span></div>
+      <a class="proj-link" href="https://github.com/adeelnotfound/Profile-card-assignment" target="_blank" rel="noopener">View repo <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 9L9 2M9 2H3M9 2V8" stroke="currentColor" stroke-width="1.3"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2 class="section-title">Still early, building anyway</h2>
+      <p>I'm a <b>CS student</b> who'd rather learn by shipping something real than by finishing another course. Most of what I know came from hitting an actual wall on an actual project — two full React Native apps, a RAG chatbot across four languages, and a Python security tool doing real AES encryption, not toy demos.</p>
+      <p>I'm not claiming to be a senior engineer with years of production experience. I'm someone who builds complete things across whatever stack the project actually needs, cares about the details most people skip, and is genuinely still learning — out loud, in public.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-n" data-count="7">0</div><div class="stat-l">repos shipped</div></div>
+        <div class="stat"><div class="stat-n" data-count="2">0</div><div class="stat-l">React Native apps</div></div>
+        <div class="stat"><div class="stat-n" data-count="4">0</div><div class="stat-l">languages used</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="stack-list">
+        <div class="stack-row"><span class="k">Languages</span><span class="v">TypeScript, Python, C++, C#</span></div>
+        <div class="stack-row"><span class="k">Mobile</span><span class="v">React Native, Expo, EAS Build</span></div>
+        <div class="stack-row"><span class="k">Web</span><span class="v">React, REST APIs</span></div>
+        <div class="stack-row"><span class="k">AI / ML</span><span class="v">Gemini API, RAG pipelines</span></div>
+        <div class="stack-row"><span class="k">Security</span><span class="v">AES/Fernet encryption, PBKDF2, auth systems</span></div>
+        <div class="stack-row"><span class="k">Networking</span><span class="v">TCP/IP, Cisco IOS basics</span></div>
+        <div class="stack-row"><span class="k">Tools</span><span class="v">Git, GitHub, Visual Studio, Linux CLI</span></div>
+        <div class="stack-row"><span class="k">Education</span><span class="v">B.S. CS, MAJU — expected 2027</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Let's talk</h2>
+  <p>Open to internships, junior roles, and anyone who wants to build something.</p>
+  <div class="contact-links">
+    <a class="btn btn-primary" href="mailto:adeelshaikh912@gmail.com">Email me</a>
+    <a class="btn btn-ghost" href="https://www.linkedin.com/in/adeel-shaikh-730ba5423/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn btn-ghost" href="https://github.com/adeelnotfound" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</section>
+
+<footer>adeelnotfound &nbsp;·&nbsp; built by Adeel Shaikh</footer>
+
+<script>
+  var lines = [
+    "> initializing profile.exe ...",
+    "> loading developer: adeel_shaikh",
+    "> status: <span class=\"ok\">ONLINE</span><span class=\"cursor\"></span>"
+  ];
+  var boot = document.getElementById('boot');
+  lines.forEach(function(text, i){
+    var el = document.createElement('span');
+    el.innerHTML = text;
+    el.style.animationDelay = (i * 0.22) + 's';
+    boot.appendChild(el);
+  });
+
+  var reveal = document.querySelectorAll('.featured, .projects, .about, .contact');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  reveal.forEach(function(el){
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
+    io.observe(el);
+  });
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll-spy nav — drives both the desktop nav links and mobile bottom tabbar
+  var spyTargets = document.querySelectorAll('.nav-link, .tab-link');
+  var sections = ['work','projects','about','contact'].map(function(id){ return document.getElementById(id); });
+  var spyIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === e.target.id); });
+      }
+    });
+  }, {threshold:0.35, rootMargin:'-80px 0px -55% 0px'});
+  sections.forEach(function(s){ if(s) spyIO.observe(s); });
+
+  // hamburger + mobile drawer
+  var hamburger = document.getElementById('hamburger');
+  var drawer = document.getElementById('mobileDrawer');
+  hamburger.addEventListener('click', function(){
+    var isOpen = hamburger.classList.toggle('open');
+    drawer.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      hamburger.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  if (!reducedMotion) {
+
+    // scroll progress bar
+    var scrollBar = document.getElementById('scrollBar');
+    window.addEventListener('scroll', function(){
+      var h = document.documentElement;
+      var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+      scrollBar.style.width = pct + '%';
+    }, {passive:true});
+
+    // cursor-follow ambient glow (desktop only)
+    if (window.matchMedia('(hover:hover)').matches) {
+      var glow = document.getElementById('cursorGlow');
+      var gx = window.innerWidth/2, gy = window.innerHeight/2, cx = gx, cy = gy;
+      window.addEventListener('mousemove', function(e){
+        gx = e.clientX; gy = e.clientY;
+        glow.style.opacity = '1';
+      });
+      (function loop(){
+        cx += (gx - cx) * 0.08;
+        cy += (gy - cy) * 0.08;
+        glow.style.left = cx + 'px';
+        glow.style.top = cy + 'px';
+        requestAnimationFrame(loop);
+      })();
+
+      // magnetic tilt on project cards
+      document.querySelectorAll('.proj-card').forEach(function(card){
+        card.addEventListener('mousemove', function(e){
+          var r = card.getBoundingClientRect();
+          var mx = e.clientX - r.left, my = e.clientY - r.top;
+          var rx = ((my / r.height) - 0.5) * -6;
+          var ry = ((mx / r.width) - 0.5) * 6;
+          card.style.transform = 'perspective(600px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-3px)';
+          card.style.setProperty('--mx', mx + 'px');
+          card.style.setProperty('--my', my + 'px');
+        });
+        card.addEventListener('mouseleave', function(){
+          card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) translateY(0)';
+        });
+      });
+    }
+
+    // nav mark cycles through roles like a terminal
+    var navMark = document.getElementById('navMark');
+    var marks = ['adeel.dev', 'whoami', 'frontend + mobile', 'adeel.dev'];
+    var mi = 0;
+    setInterval(function(){
+      mi = (mi + 1) % marks.length;
+      navMark.style.opacity = '0';
+      setTimeout(function(){
+        navMark.textContent = marks[mi];
+        navMark.style.opacity = '1';
+      }, 200);
+    }, 3200);
+    navMark.style.transition = 'opacity .2s';
+
+    // count-up stats when scrolled into view
+    var counted = false;
+    var countIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting && !counted){
+          counted = true;
+          document.querySelectorAll('.stat-n').forEach(function(el){
+            var target = parseInt(el.dataset.count, 10);
+            var start = performance.now();
+            var dur = 1100;
+            (function tick(now){
+              var p = Math.min(1, (now - start) / dur);
+              var eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = Math.round(eased * target);
+              if (p < 1) requestAnimationFrame(tick);
+            })(performance.now());
+          });
+        }
+      });
+    }, {threshold:0.5});
+    var statRow = document.querySelector('.stat-row');
+    if (statRow) countIO.observe(statRow);
+
+  } else {
+    document.querySelectorAll('.stat-n').forEach(function(el){ el.textContent = el.dataset.count; });
+  }
+
+  var reveal = document.querySelectorAll('.featured, .projects, .about, .contact');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  reveal.forEach(function(el){
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';
+    io.observe(el);
+  });
+
+  if (reducedMotion) {
+    document.querySelectorAll('*').forEach(function(el){ el.style.animation = 'none'; el.style.transition = 'none'; });
+  }
+</script>
+
+</body>
+</html>
