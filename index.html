@@ -660,7 +660,9 @@
   // scroll-spy nav — drives both the desktop nav links and mobile bottom tabbar
   var spyTargets = document.querySelectorAll('.nav-link, .tab-link');
   var sections = ['work','projects','about','contact'].map(function(id){ return document.getElementById(id); });
+  var spyLocked = false;
   var spyIO = new IntersectionObserver(function(entries){
+    if (spyLocked) return;
     entries.forEach(function(e){
       if(e.isIntersecting){
         spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === e.target.id); });
@@ -668,6 +670,19 @@
     });
   }, {threshold:0.35, rootMargin:'-80px 0px -55% 0px'});
   sections.forEach(function(s){ if(s) spyIO.observe(s); });
+
+  // clicking a nav link sets it active right away, and briefly locks out the
+  // scroll observer so it can't leave a stale highlight while the smooth
+  // scroll to the new section is still animating
+  spyTargets.forEach(function(link){
+    link.addEventListener('click', function(){
+      var sec = link.dataset.sec;
+      spyTargets.forEach(function(l){ l.classList.toggle('active', l.dataset.sec === sec); });
+      spyLocked = true;
+      clearTimeout(spyTargets._unlockTimer);
+      spyTargets._unlockTimer = setTimeout(function(){ spyLocked = false; }, 900);
+    });
+  });
 
   // hamburger + mobile drawer
   var hamburger = document.getElementById('hamburger');
