@@ -72,8 +72,13 @@
   }
   .nav-mark{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--cyan);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
   .nav-links{display:flex;gap:32px;font-family:var(--mono);font-size:13px}
-  .nav-links a{color:var(--text-dim);transition:color .2s}
+  .nav-links a{color:var(--text-dim);transition:color .2s;position:relative;padding-bottom:2px}
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--cyan);
+    transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.16,1,.3,1);
+  }
   .nav-links a:hover{color:var(--cyan)}
+  .nav-links a:hover::after{transform:scaleX(1)}
   .nav-cta{
     font-family:var(--mono);font-size:12px;padding:9px 18px;border-radius:6px;
     border:1px solid var(--cyan);color:var(--cyan);transition:all .2s;
@@ -131,8 +136,10 @@
   /* ── HERO ── */
   .hero{
     min-height:88vh;display:flex;flex-direction:column;justify-content:center;
-    padding-top:60px;padding-bottom:60px;
+    padding-top:60px;padding-bottom:60px;position:relative;overflow:hidden;
   }
+  .hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.9}
+  .hero>*:not(.hero-grid){position:relative;z-index:1}
   @media (max-width:720px){
     .hero{min-height:82vh;padding-top:40px}
     .boot{font-size:11px;margin-bottom:26px;min-height:76px}
@@ -149,6 +156,25 @@
     font-family:var(--display);font-weight:700;
     font-size:clamp(48px,8.4vw,108px);line-height:.98;letter-spacing:-.02em;
     color:#fff;animation:riseIn .7s .9s cubic-bezier(.16,1,.3,1) both;
+    position:relative;display:inline-block;
+  }
+  .hero-name.glitching::before,.hero-name.glitching::after{
+    content:'Adeel Shaikh';position:absolute;left:0;top:0;width:100%;height:100%;
+    overflow:hidden;color:#fff;background:var(--bg);
+  }
+  .hero-name.glitching::before{
+    left:2px;text-shadow:-2px 0 var(--magenta);animation:glitchTop .35s linear;
+  }
+  .hero-name.glitching::after{
+    left:-2px;text-shadow:2px 0 var(--cyan);animation:glitchBot .35s linear;
+  }
+  @keyframes glitchTop{
+    0%{clip-path:inset(0 0 88% 0)}20%{clip-path:inset(12% 0 60% 0)}40%{clip-path:inset(48% 0 30% 0)}
+    60%{clip-path:inset(6% 0 78% 0)}80%{clip-path:inset(70% 0 8% 0)}100%{clip-path:inset(0 0 100% 0)}
+  }
+  @keyframes glitchBot{
+    0%{clip-path:inset(90% 0 0 0)}20%{clip-path:inset(55% 0 15% 0)}40%{clip-path:inset(20% 0 55% 0)}
+    60%{clip-path:inset(75% 0 5% 0)}80%{clip-path:inset(10% 0 66% 0)}100%{clip-path:inset(100% 0 0 0)}
   }
   .hero-role{
     margin-top:18px;font-family:var(--mono);font-size:clamp(14px,2vw,18px);
@@ -172,9 +198,11 @@
     transition:all .2s;
   }
   .btn-primary{background:var(--cyan);color:#000;border-color:var(--cyan)}
-  .btn-primary:hover{box-shadow:0 0 24px rgba(0,240,255,.4);transform:translateY(-1px)}
+  .btn-primary:hover{box-shadow:0 0 24px rgba(0,240,255,.4);transform:translateY(-2px)}
+  .btn-primary:active{transform:translateY(0) scale(.97);box-shadow:0 0 12px rgba(0,240,255,.3)}
   .btn-ghost{color:var(--text)}
-  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+  .btn-ghost:active{transform:translateY(0) scale(.97)}
 
   .eyebrow{
     font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--magenta);
@@ -215,8 +243,11 @@
   .pill{
     font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:6px 12px;border-radius:6px;
     border:1px solid rgba(0,240,255,.28);color:var(--cyan);background:rgba(0,240,255,.05);
+    transition:transform .2s,box-shadow .2s,background .2s;
   }
+  .pill:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,240,255,.25);background:rgba(0,240,255,.1)}
   .pill.m{border-color:rgba(255,46,151,.28);color:var(--magenta);background:rgba(255,46,151,.05)}
+  .pill.m:hover{box-shadow:0 0 14px rgba(255,46,151,.25);background:rgba(255,46,151,.1)}
 
   /* device mockup */
   .device-wrap{display:flex;justify-content:center;will-change:transform}
@@ -471,6 +502,7 @@
   @media (prefers-reduced-motion: reduce){
     .reveal-el,.stack-row{opacity:1!important;transform:none!important;transition:none!important}
     .device-wrap .device{transform:none!important}
+    .hero-grid{display:none}
   }
 </style>
 </head>
@@ -521,8 +553,9 @@
 </nav>
 
 <section class="hero">
+  <canvas class="hero-grid" id="heroGrid"></canvas>
   <div class="boot" id="boot"></div>
-  <h1 class="hero-name">Adeel Shaikh</h1>
+  <h1 class="hero-name" id="heroName">Adeel Shaikh</h1>
   <div class="hero-role">Software Developer &nbsp;·&nbsp; Final-Year CS Student</div>
   <p class="hero-tagline">"Rooted in purpose, driven by hope."</p>
   <div class="hero-links">
@@ -841,6 +874,95 @@
   });
 
   if (!reducedMotion) {
+
+    // occasional glitch flicker on the name — once on load, then rarely
+    var heroName = document.getElementById('heroName');
+    function triggerGlitch(){
+      heroName.classList.add('glitching');
+      setTimeout(function(){ heroName.classList.remove('glitching'); }, 350);
+    }
+    setTimeout(triggerGlitch, 2000);
+    setInterval(function(){
+      if (Math.random() < 0.5) triggerGlitch();
+    }, 6000);
+
+    // signature element: ambient circuit-grid canvas in the hero.
+    // nodes drift slowly, connect to nearby neighbors, and brighten near the cursor.
+    (function(){
+      var canvas = document.getElementById('heroGrid');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var heroEl = document.querySelector('.hero');
+      var W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+      var nodes = [];
+      var mouse = {x:-9999, y:-9999};
+      var isTouch = !window.matchMedia('(hover:hover)').matches;
+
+      function resize(){
+        W = heroEl.offsetWidth; H = heroEl.offsetHeight;
+        canvas.width = W * DPR; canvas.height = H * DPR;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+        var count = Math.min(70, Math.round((W * H) / 22000));
+        nodes = [];
+        for (var i = 0; i < count; i++){
+          nodes.push({
+            x: Math.random() * W, y: Math.random() * H,
+            vx: (Math.random() - 0.5) * 0.18, vy: (Math.random() - 0.5) * 0.18
+          });
+        }
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      if (!isTouch) {
+        heroEl.addEventListener('mousemove', function(e){
+          var r = heroEl.getBoundingClientRect();
+          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+        });
+        heroEl.addEventListener('mouseleave', function(){ mouse.x = -9999; mouse.y = -9999; });
+      }
+
+      var linkDist = 130, linkDist2 = linkDist * linkDist;
+      var mouseDist = 170, mouseDist2 = mouseDist * mouseDist;
+
+      function tick(){
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < nodes.length; i++){
+          var n = nodes[i];
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > W) n.vx *= -1;
+          if (n.y < 0 || n.y > H) n.vy *= -1;
+        }
+        for (var i = 0; i < nodes.length; i++){
+          for (var j = i + 1; j < nodes.length; j++){
+            var a = nodes[i], b = nodes[j];
+            var dx = a.x - b.x, dy = a.y - b.y;
+            var d2 = dx*dx + dy*dy;
+            if (d2 < linkDist2){
+              var o = (1 - d2 / linkDist2) * 0.16;
+              ctx.strokeStyle = 'rgba(0,240,255,' + o + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+          var mdx = nodes[i].x - mouse.x, mdy = nodes[i].y - mouse.y;
+          var md2 = mdx*mdx + mdy*mdy;
+          if (md2 < mouseDist2){
+            var mo = (1 - md2 / mouseDist2);
+            ctx.strokeStyle = 'rgba(255,46,151,' + (mo * 0.5) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,' + (0.3 + mo*0.6) + ')';
+          } else {
+            ctx.fillStyle = 'rgba(140,160,180,0.45)';
+          }
+          ctx.beginPath(); ctx.arc(nodes[i].x, nodes[i].y, 1.6, 0, Math.PI*2); ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
 
     // scroll progress bar
     var scrollBar = document.getElementById('scrollBar');
