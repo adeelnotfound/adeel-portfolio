@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script>document.documentElement.classList.remove('no-js');</script>
 <title>Adeel Shaikh — Frontend Developer</title>
-<meta name="description" content="Adeel Shaikh — software developer and final-year CS student. Rooted in purpose, driven by hope." />
+<meta name="description" content="Adeel Shaikh — software developer and final-year CS student who builds tools to solve his own problems, then obsesses over the small UI details." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#080a0f;
-    --bg-raised:#0d1119;
-    --bg-card:#0f141d;
-    --cyan:#00f0ff;
-    --magenta:#ff2e97;
-    --purple:#7b2fff;
-    --text:#e4e9f0;
-    --text-dim:#8891a0;
-    --text-muted:#4b5563;
+    --bg:#0d0f13;
+    --bg-raised:#12151b;
+    --bg-card:#161a21;
+    --cyan:#5789c4;
+    --magenta:#d84f3e;
+    --purple:#2c5580;
+    --text:#e8e6df;
+    --text-dim:#9199a6;
+    --text-muted:#565c68;
     --border:rgba(255,255,255,0.08);
     --border-strong:rgba(255,255,255,0.14);
     --mono:'JetBrains Mono',ui-monospace,monospace;
@@ -36,7 +36,7 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  ::selection{background:var(--cyan);color:#000}
+  ::selection{background:var(--cyan);color:#0d0f13}
   a{color:inherit;text-decoration:none}
 
   .noise{
@@ -46,20 +46,14 @@
   .bg-glow{
     position:fixed;inset:0;pointer-events:none;z-index:0;
     background:
-      radial-gradient(700px 500px at 15% 0%,rgba(0,240,255,.06),transparent 60%),
-      radial-gradient(600px 500px at 90% 30%,rgba(255,46,151,.05),transparent 60%),
-      radial-gradient(800px 600px at 50% 100%,rgba(123,47,255,.05),transparent 60%);
-  }
-  .cursor-glow{
-    position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;
-    background:radial-gradient(circle,rgba(0,240,255,.05),transparent 68%);
-    transform:translate(-50%,-50%);
-    transition:opacity .3s;left:50%;top:40%;opacity:0;
+      radial-gradient(700px 500px at 15% 0%,rgba(87,137,196,.06),transparent 60%),
+      radial-gradient(600px 500px at 90% 30%,rgba(216,79,62,.05),transparent 60%),
+      radial-gradient(800px 600px at 50% 100%,rgba(87,137,196,.05),transparent 60%);
   }
   .scroll-bar{
     position:fixed;top:0;left:0;height:2px;z-index:100;
     background:linear-gradient(90deg,var(--magenta),var(--purple),var(--cyan));
-    width:0%;box-shadow:0 0 12px rgba(0,240,255,.6);
+    width:0%;box-shadow:0 0 12px rgba(87,137,196,.6);
     transition:width .08s linear;
   }
 
@@ -83,7 +77,7 @@
     font-family:var(--mono);font-size:12px;padding:9px 18px;border-radius:6px;
     border:1px solid var(--cyan);color:var(--cyan);transition:all .2s;
   }
-  .nav-cta:hover{background:var(--cyan);color:#000}
+  .nav-cta:hover{background:var(--cyan);color:#0d0f13}
   @media (max-width:720px){.nav-links{display:none}}
 
   /* ── mobile hamburger + drawer ── */
@@ -158,24 +152,6 @@
     color:#fff;animation:riseIn .7s .9s cubic-bezier(.16,1,.3,1) both;
     position:relative;display:inline-block;
   }
-  .hero-name.glitching::before,.hero-name.glitching::after{
-    content:'Adeel Shaikh';position:absolute;left:0;top:0;width:100%;height:100%;
-    overflow:hidden;color:#fff;background:var(--bg);
-  }
-  .hero-name.glitching::before{
-    left:2px;text-shadow:-2px 0 var(--magenta);animation:glitchTop .35s linear;
-  }
-  .hero-name.glitching::after{
-    left:-2px;text-shadow:2px 0 var(--cyan);animation:glitchBot .35s linear;
-  }
-  @keyframes glitchTop{
-    0%{clip-path:inset(0 0 88% 0)}20%{clip-path:inset(12% 0 60% 0)}40%{clip-path:inset(48% 0 30% 0)}
-    60%{clip-path:inset(6% 0 78% 0)}80%{clip-path:inset(70% 0 8% 0)}100%{clip-path:inset(0 0 100% 0)}
-  }
-  @keyframes glitchBot{
-    0%{clip-path:inset(90% 0 0 0)}20%{clip-path:inset(55% 0 15% 0)}40%{clip-path:inset(20% 0 55% 0)}
-    60%{clip-path:inset(75% 0 5% 0)}80%{clip-path:inset(10% 0 66% 0)}100%{clip-path:inset(100% 0 0 0)}
-  }
   .hero-role{
     margin-top:18px;font-family:var(--mono);font-size:clamp(14px,2vw,18px);
     color:var(--cyan);letter-spacing:.04em;
@@ -197,9 +173,9 @@
     border:1px solid var(--border-strong);display:inline-flex;align-items:center;gap:8px;
     transition:all .2s;
   }
-  .btn-primary{background:var(--cyan);color:#000;border-color:var(--cyan)}
-  .btn-primary:hover{box-shadow:0 0 24px rgba(0,240,255,.4);transform:translateY(-2px)}
-  .btn-primary:active{transform:translateY(0) scale(.97);box-shadow:0 0 12px rgba(0,240,255,.3)}
+  .btn-primary{background:var(--cyan);color:#0d0f13;border-color:var(--cyan)}
+  .btn-primary:hover{box-shadow:0 0 24px rgba(87,137,196,.4);transform:translateY(-2px)}
+  .btn-primary:active{transform:translateY(0) scale(.97);box-shadow:0 0 12px rgba(87,137,196,.3)}
   .btn-ghost{color:var(--text)}
   .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
   .btn-ghost:active{transform:translateY(0) scale(.97)}
@@ -242,12 +218,12 @@
   .feat-stack{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0}
   .pill{
     font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:6px 12px;border-radius:6px;
-    border:1px solid rgba(0,240,255,.28);color:var(--cyan);background:rgba(0,240,255,.05);
+    border:1px solid rgba(87,137,196,.28);color:var(--cyan);background:rgba(87,137,196,.05);
     transition:transform .2s,box-shadow .2s,background .2s;
   }
-  .pill:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,240,255,.25);background:rgba(0,240,255,.1)}
-  .pill.m{border-color:rgba(255,46,151,.28);color:var(--magenta);background:rgba(255,46,151,.05)}
-  .pill.m:hover{box-shadow:0 0 14px rgba(255,46,151,.25);background:rgba(255,46,151,.1)}
+  .pill:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(87,137,196,.25);background:rgba(87,137,196,.1)}
+  .pill.m{border-color:rgba(216,79,62,.28);color:var(--magenta);background:rgba(216,79,62,.05)}
+  .pill.m:hover{box-shadow:0 0 14px rgba(216,79,62,.25);background:rgba(216,79,62,.1)}
 
   /* device mockup */
   .device-wrap{display:flex;justify-content:center;will-change:transform}
@@ -255,10 +231,18 @@
     width:280px;max-width:78vw;border-radius:36px;padding:14px;
     background:linear-gradient(160deg,#161c28,#0a0d13);
     border:1px solid var(--border-strong);
-    box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 60px rgba(0,240,255,.06);
+    box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 60px rgba(87,137,196,.06);
     animation:float 6s ease-in-out infinite;
   }
   .device.saffron{animation-delay:-3s}
+  .device.flagship{
+    width:300px;
+    box-shadow:0 44px 100px rgba(0,0,0,.6),0 0 80px rgba(87,137,196,.1);
+    border-color:rgba(87,137,196,.22);
+  }
+  @media (max-width:720px){.device.flagship{max-width:78vw}}
+  .feat-block.secondary .feat-copy h3{font-size:clamp(22px,2.8vw,30px);color:var(--text)}
+  .feat-block.secondary{opacity:.92}
   @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(.4deg)}}
   @media (max-width:720px){.device{animation:none;max-width:64vw}}
   .device-screen{
@@ -292,7 +276,7 @@
     font-family:var(--body);font-size:10.5px;padding:9px 12px;border-radius:12px;max-width:78%;
     line-height:1.4;
   }
-  .d-bubble.user{align-self:flex-end;background:rgba(0,240,255,.14);color:#fff;border-bottom-right-radius:4px}
+  .d-bubble.user{align-self:flex-end;background:rgba(87,137,196,.14);color:#fff;border-bottom-right-radius:4px}
   .d-bubble.ai{align-self:flex-start;background:rgba(255,255,255,.05);color:var(--text-dim);border-bottom-left-radius:4px}
   .d-tabbar{
     display:flex;justify-content:space-around;padding:12px 10px;
@@ -301,28 +285,28 @@
   .d-tab{
     width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);
   }
-  .d-tab.active{background:var(--cyan);box-shadow:0 0 8px rgba(0,240,255,.6)}
+  .d-tab.active{background:var(--cyan);box-shadow:0 0 8px rgba(87,137,196,.6)}
 
   .device.saffron .d-header .g{color:#f5c542}
   .device.saffron .d-status,.device.saffron .device-screen{background:#0a0a0a}
-  .device.saffron .device-screen{border-color:rgba(245,197,66,.1)}
+  .device.saffron .device-screen{border-color:rgba(87,137,196,.1)}
   .d-chip-row{display:flex;gap:6px;padding:0 18px 12px;flex-wrap:wrap}
-  .d-chip{font-family:var(--mono);font-size:8.5px;padding:5px 10px;border-radius:20px;border:1px solid rgba(245,197,66,.3);color:#f5c542}
-  .d-chip.on{background:rgba(245,197,66,.16)}
+  .d-chip{font-family:var(--mono);font-size:8.5px;padding:5px 10px;border-radius:20px;border:1px solid rgba(87,137,196,.3);color:#f5c542}
+  .d-chip.on{background:rgba(87,137,196,.16)}
   .d-recipe-card{margin:0 18px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px}
   .d-recipe-card .t{font-family:var(--display);font-weight:600;font-size:12.5px;color:#fff}
   .d-recipe-card .s{font-family:var(--mono);font-size:8.5px;color:#f5c542;margin-top:4px}
   .d-check{display:flex;align-items:center;gap:8px;padding:6px 18px;font-family:var(--body);font-size:10.5px;color:var(--text-dim)}
-  .d-check .box{width:12px;height:12px;border-radius:3px;border:1px solid rgba(245,197,66,.4);flex:none}
+  .d-check .box{width:12px;height:12px;border-radius:3px;border:1px solid rgba(87,137,196,.4);flex:none}
   .d-check.done .box{background:#f5c542;border-color:#f5c542}
   .d-check.done span{text-decoration:line-through;opacity:.5}
 
   .why-box{
-    margin-top:32px;padding:18px 20px;border-left:2px solid var(--magenta);
-    background:rgba(255,46,151,.04);border-radius:0 8px 8px 0;
+    margin-top:32px;padding-left:18px;
   }
-  .why-box .k{font-family:var(--mono);font-size:11px;color:var(--magenta);letter-spacing:.1em;margin-bottom:6px}
-  .why-box p{color:var(--text-dim);font-size:14.5px;margin:0}
+  .why-box .k{font-family:var(--mono);font-size:12px;color:var(--magenta);letter-spacing:.02em;margin-bottom:6px}
+  .why-box .k::before{content:'$ ';color:var(--text-muted)}
+  .why-box p{color:var(--text-dim);font-size:14.5px;margin:0;padding-left:14px}
 
   /* ── OTHER PROJECTS ── */
   .projects{padding-top:100px;padding-bottom:100px;border-top:1px solid var(--border)}
@@ -337,16 +321,16 @@
   }
   .proj-card::before{
     content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;
-    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(0,240,255,.1),transparent 70%);
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(87,137,196,.1),transparent 70%);
   }
   .proj-card:hover::before{opacity:1}
-  .proj-card:hover{border-color:rgba(0,240,255,.35);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  .proj-card:hover{border-color:rgba(87,137,196,.35);box-shadow:0 20px 50px rgba(0,0,0,.4)}
   .proj-card .num{font-family:var(--mono);font-size:11px;color:var(--text-muted);position:relative;z-index:1}
   .proj-card h4{font-family:var(--display);font-weight:600;font-size:19px;color:#fff;margin:10px 0 8px;position:relative;z-index:1}
   .proj-card p{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;min-height:40px;position:relative;z-index:1}
   .proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;position:relative;z-index:1}
   .tag{font-family:var(--mono);font-size:10px;color:var(--text-muted);padding:3px 9px;border:1px solid var(--border);border-radius:5px;transition:border-color .2s,color .2s}
-  .proj-card:hover .tag{border-color:rgba(0,240,255,.25);color:var(--cyan)}
+  .proj-card:hover .tag{border-color:rgba(87,137,196,.25);color:var(--cyan)}
   .proj-link{font-family:var(--mono);font-size:12px;color:var(--cyan);display:inline-flex;align-items:center;gap:6px;position:relative;z-index:1}
   .proj-link:hover{text-decoration:underline}
   .proj-link svg{transition:transform .2s}
@@ -354,7 +338,7 @@
 
   @media (max-width:720px){
     .proj-card{padding:22px 20px}
-    .proj-card:active{border-color:rgba(0,240,255,.35);transform:scale(.98)}
+    .proj-card:active{border-color:rgba(87,137,196,.35);transform:scale(.98)}
     .proj-card:active .proj-link svg{transform:translate(3px,-3px)}
   }
 
@@ -376,7 +360,7 @@
   .about p{color:var(--text-dim);font-size:16px;margin-bottom:18px;max-width:560px}
   .about b{color:var(--text)}
   .stat-row{display:flex;gap:40px;margin-top:32px}
-  .stat-n{font-family:var(--display);font-weight:700;font-size:38px;color:var(--cyan);text-shadow:0 0 20px rgba(0,240,255,.3)}
+  .stat-n{font-family:var(--display);font-weight:700;font-size:38px;color:var(--cyan);text-shadow:0 0 20px rgba(87,137,196,.3)}
   .stat-l{font-family:var(--mono);font-size:10.5px;color:var(--text-muted);letter-spacing:.06em;margin-top:4px}
   .stack-list{display:flex;flex-direction:column;gap:0}
   .stack-row{
@@ -420,7 +404,7 @@
     .feat-copy h3{font-size:26px}
     .feat-copy p{font-size:14.5px}
     .device{max-width:82vw;width:260px}
-    .why-box{padding:14px 16px}
+    .why-box{padding-left:14px}
 
     .stat-row{gap:0;justify-content:space-between}
     .stat{flex:1 1 0;min-width:0}
@@ -509,7 +493,6 @@
 <body>
 
 <div class="scroll-bar" id="scrollBar"></div>
-<div class="cursor-glow" id="cursorGlow"></div>
 <div class="bg-glow"></div>
 <div class="noise"></div>
 
@@ -574,7 +557,7 @@
     <div class="feat-copy reveal-el" data-reveal="left">
       <h3>Nutrideel</h3>
       <div class="sub">Calorie & nutrition tracker · React Native / Expo</div>
-      <p>An <b>offline-first</b> nutrition tracker with meal, weight, activity, and fasting logging, SVG progress charts, and a thermodynamic weight-forecasting engine. Describe what you ate in plain language and Gemini breaks it into calories and macros — with a fully offline heuristic fallback, so core features work with no network and no API key at all.</p>
+      <p>A nutrition tracker with meal, weight, activity, and fasting logging, SVG progress charts, and a thermodynamic weight-forecasting engine. Describe what you ate in plain language and Gemini breaks it into calories and macros — with a heuristic fallback, so core features still work with no network and no API key.</p>
       <p>On-device persistence via AsyncStorage, unit conversion, local reminder notifications, and haptic-driven UI feedback throughout. Configured for Android distribution via EAS Build. MIT licensed and live on GitHub.</p>
       <div class="feat-stack">
         <span class="pill">React Native</span>
@@ -592,7 +575,7 @@
       </div>
     </div>
     <div class="device-wrap reveal-el" data-reveal="right">
-      <div class="device">
+      <div class="device flagship">
         <div class="device-screen">
           <div class="d-status"><span>9:41</span><span>●●●</span></div>
           <div class="d-header">
@@ -627,7 +610,7 @@
   </div>
   </div>
 
-  <div class="feat-block reveal-el">
+  <div class="feat-block secondary reveal-el">
   <div class="feat-grid reverse">
     <div class="feat-copy reveal-el" data-reveal="right">
       <h3>Aromatic Aura</h3>
@@ -734,8 +717,8 @@
     <div class="reveal-el" data-reveal="left">
       <div class="eyebrow">About</div>
       <h2 class="section-title">Still early, building anyway</h2>
-      <p>I'm a <b>final-year CS student</b> who'd rather learn by shipping something real than by finishing another course. Most of what I know came from hitting an actual wall on an actual project — two full React Native apps, a RAG chatbot across four languages, and a Python security tool doing real AES encryption, not toy demos.</p>
-      <p>I'm not claiming to be a senior engineer with years of production experience. I'm someone who builds complete things across whatever stack the project actually needs, cares about the details most people skip, and is genuinely still learning — out loud, in public.</p>
+      <p>I'm a <b>final-year CS student</b>, and almost everything in this portfolio started the same way: I needed the thing myself, so I built it. Nutrideel exists because I wanted a tracker that fit how I actually eat. The security tool exists because I wanted to understand what "encrypted" really meant instead of trusting a library to mean it for me.</p>
+      <p>I'm not claiming years of production experience I don't have. What I do care about — probably more than is efficient — is the stuff most first projects skip: does the empty state look intentional, does the loading spinner feel like it belongs, does the app survive no internet and no API key. Those are the parts that separate "it runs" from "it's actually done," and they're the parts I keep coming back to.</p>
       <div class="stat-row">
         <div class="stat"><div class="stat-n" data-count="7">0</div><div class="stat-l">repos shipped</div></div>
         <div class="stat"><div class="stat-n" data-count="2">0</div><div class="stat-l">React Native apps</div></div>
@@ -875,17 +858,6 @@
 
   if (!reducedMotion) {
 
-    // occasional glitch flicker on the name — once on load, then rarely
-    var heroName = document.getElementById('heroName');
-    function triggerGlitch(){
-      heroName.classList.add('glitching');
-      setTimeout(function(){ heroName.classList.remove('glitching'); }, 350);
-    }
-    setTimeout(triggerGlitch, 2000);
-    setInterval(function(){
-      if (Math.random() < 0.5) triggerGlitch();
-    }, 6000);
-
     // signature element: ambient circuit-grid canvas in the hero.
     // nodes drift slowly, connect to nearby neighbors, and brighten near the cursor.
     (function(){
@@ -941,7 +913,7 @@
             var d2 = dx*dx + dy*dy;
             if (d2 < linkDist2){
               var o = (1 - d2 / linkDist2) * 0.16;
-              ctx.strokeStyle = 'rgba(0,240,255,' + o + ')';
+              ctx.strokeStyle = 'rgba(87,137,196,' + o + ')';
               ctx.lineWidth = 1;
               ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
             }
@@ -950,7 +922,7 @@
           var md2 = mdx*mdx + mdy*mdy;
           if (md2 < mouseDist2){
             var mo = (1 - md2 / mouseDist2);
-            ctx.strokeStyle = 'rgba(255,46,151,' + (mo * 0.5) + ')';
+            ctx.strokeStyle = 'rgba(216,79,62,' + (mo * 0.5) + ')';
             ctx.lineWidth = 1;
             ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
             ctx.fillStyle = 'rgba(255,255,255,' + (0.3 + mo*0.6) + ')';
@@ -972,25 +944,11 @@
       scrollBar.style.width = pct + '%';
     }, {passive:true});
 
-    // cursor-follow ambient glow (desktop only)
+    // magnetic tilt on project cards (kept — cheap, localized, doesn't compete with the hero canvas)
     if (window.matchMedia('(hover:hover)').matches) {
-      var glow = document.getElementById('cursorGlow');
-      var gx = window.innerWidth/2, gy = window.innerHeight/2, cx = gx, cy = gy;
-      window.addEventListener('mousemove', function(e){
-        gx = e.clientX; gy = e.clientY;
-        glow.style.opacity = '1';
-      });
-      (function loop(){
-        cx += (gx - cx) * 0.08;
-        cy += (gy - cy) * 0.08;
-        glow.style.left = cx + 'px';
-        glow.style.top = cy + 'px';
-        requestAnimationFrame(loop);
-      })();
-
-      // magnetic tilt on project cards
       document.querySelectorAll('.proj-card').forEach(function(card){
         card.addEventListener('mousemove', function(e){
+          card.style.transition = 'transform .12s ease-out';
           var r = card.getBoundingClientRect();
           var mx = e.clientX - r.left, my = e.clientY - r.top;
           var rx = ((my / r.height) - 0.5) * -6;
@@ -1000,24 +958,11 @@
           card.style.setProperty('--my', my + 'px');
         });
         card.addEventListener('mouseleave', function(){
+          card.style.transition = 'transform .12s ease-out';
           card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) translateY(0)';
         });
       });
     }
-
-    // nav mark cycles through roles like a terminal
-    var navMark = document.getElementById('navMark');
-    var marks = ['adeel.dev', 'whoami', 'frontend + mobile', 'adeel.dev'];
-    var mi = 0;
-    setInterval(function(){
-      mi = (mi + 1) % marks.length;
-      navMark.style.opacity = '0';
-      setTimeout(function(){
-        navMark.textContent = marks[mi];
-        navMark.style.opacity = '1';
-      }, 200);
-    }, 3200);
-    navMark.style.transition = 'opacity .2s';
 
     // count-up stats when scrolled into view
     var counted = false;
