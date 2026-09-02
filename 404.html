@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0A0E14" />
+<title>Page not found — Adeel Shaikh</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,650&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e14;
+    --ink:#f0f3f8;
+    --ink-dim:#9aa5b4;
+    --ink-muted:#5c6779;
+    --red:#e1372f;
+    --blue:#3e7bfa;
+    --line-strong:rgba(240,243,248,.17);
+    --r-sm:8px;
+    --display:'Fraunces',serif;
+    --body:'IBM Plex Sans',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+
+  .wrap{
+    max-width:440px;
+    text-align:center;
+  }
+
+  .ring{
+    width:96px;height:96px;margin:0 auto 36px;
+    border-radius:50%;
+    background:conic-gradient(var(--red) 0deg 140deg, rgba(240,243,248,.1) 140deg 360deg);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ring::before{
+    content:'';
+    position:relative;
+    width:74px;height:74px;
+    border-radius:50%;
+    background:var(--bg);
+  }
+
+  h1{
+    font-family:var(--display);
+    font-weight:650;
+    font-variation-settings:'opsz' 90;
+    font-size:clamp(48px,9vw,72px);
+    letter-spacing:-.01em;
+    color:#fff;
+  }
+
+  p{
+    margin-top:14px;
+    color:var(--ink-dim);
+    font-size:16px;
+    max-width:340px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:32px;
+    font-family:var(--body);
+    font-size:14px;
+    font-weight:500;
+    padding:12px 24px;
+    border-radius:var(--r-sm);
+    border:1px solid var(--line-strong);
+    color:var(--ink);
+    transition:border-color .2s, color .2s;
+  }
+  .btn:hover{
+    border-color:var(--blue);
+    color:var(--blue);
+  }
+  .btn:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="ring" aria-hidden="true"></div>
+  <h1>404</h1>
+  <p>This page doesn't exist, or it's moved somewhere else.</p>
+  <a class="btn" href="/">Back to home</a>
+</div>
+
+</body>
+</html>
